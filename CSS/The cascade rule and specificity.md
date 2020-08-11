@@ -18,7 +18,7 @@ p {
 <p class="special">What color am I?</p>
 ```
 
-
+<br>
 
 ### Specificity (=우선순위)
 
@@ -26,6 +26,7 @@ A certain order of specificity exists within the CSS cascade rule.
 
 inline > id > class > selector > inheritance
 
+<br>
 
 
 ### Inheritance
@@ -41,7 +42,7 @@ Things like widths, margins, padding, and borders do not inherit.
   - ex) `color: initial` == black
 - `unset` : resets the property to its natural value (if inherited, the inherited value if not, the initial value)
 
-
+<br>
 
 ### !important
 
