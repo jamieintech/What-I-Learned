@@ -1,2 +1,4 @@
 # TIL
-A Collection of What I Learned in a Day
+:brain: Hey Jamie go learn sth new
+
+:running_woman: Sure thing!
