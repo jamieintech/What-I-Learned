@@ -522,3 +522,126 @@ def create(request):
 ```
 
 잊지말고 urls.py에서 **new/** url도 없애주자 
+
+<br>
+
+## DELETE
+
+로직 중에서 제일 쉬운 삭제 기능을 구현해보자
+
+#### urls.py
+
+```python
+path('<int:pk>/delete/', views.delete, name='delete'),
+```
+
+#### views.py
+
+```python
+def delete(request, pk):
+    # request랑 같이 들어온 pk를 디비에서 찾아냄
+    article = Article.objects.get(pk=pk)
+
+    # 아무나 링크로 삭제 못하게 POST인지 확인먼저
+    if request.method == 'POST':
+        article.delete()
+        return redirect('articles:index')
+
+    # GET 요청은 그냥 삭제 안하고 다시 상세페이지로
+    else:
+        return redirect('aritlces:detail', article.pk)
+```
+
+#### detail.html
+
+```django
+{% extends 'base.html' %}
+
+{% block content %}
+
+<h1>DETAIL of pk {{article.pk}}</h1>
+
+<p>title: {{article.title}}</p>
+<p>content: {{article.content}}</p>
+<p>created at: {{article.created_at}}</p>
+<p>updated at: {{article.updated_at}}</p>
+
+<!-- 삭제 -->
+<form action="{% url 'articles:delete' article.pk %}" method="post">
+{% csrf_token %}
+  <input type="submit" value="DELETE">
+</form>
+
+{% endblock content %}
+```
+
+삭제할 수 있는 버튼/링크는 상세페이지에서 **POST**로만 가능하게끔 FORM으로 만들어준다
+
+<br>
+
+## UPDATE
+
+#### urls.py
+
+```python
+path('<int:pk>/update/', views.update, name='update'),
+```
+
+#### views.py
+
+```python
+def update(request, pk):
+    # 우선 바꾸고 싶은 article 객체 찾기
+    article = Article.objects.get(pk=pk)
+
+    if request.method == 'POST':
+        # instance = find an existing model instance from database
+        # if target instance is found from the database, save() will update that instance
+        # else, save() will create a new instance of the specified model
+        form = ArticleForm(request.POST, instance=article)
+
+        if form.is_valid():
+            form.save()
+            return redirect('articles:detail', article.pk)
+
+    else:
+        form = ArticleForm(instance=article)
+    context = {
+        'form':form,
+        'article':article
+    }
+    return render(request, 'articles/update.html', context)
+```
+
+주석에도 달았지만 장고의 `save()`는 `instance`를 수정하거나 생성할 수 있다. 그걸 이용해서 수정을 하는 것. 
+
+#### update.html
+
+```django
+{% extends 'base.html' %}
+
+{% block content %}
+
+<h1>UPDATE {{article.pk}}</h1>
+
+<form action="{% url 'articles:update' article.pk %}" method="post">
+{% csrf_token %}
+  {{form.as_p}}
+  <input type="submit">
+
+</form>
+
+{% endblock  %}
+```
+
+<br>
+
+## 최종 폴더 구조
+
+이걸로 장고를 이용한 기본 CRUD는 끝! 마지막으로 만들어진 폴더 구조를 살펴보자
+
+![image-20201001154824704](img/image-20201001154824704.png)
+
+
+
+이제 진짜 끝!
