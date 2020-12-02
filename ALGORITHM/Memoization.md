@@ -30,4 +30,4 @@ print(factorial(n))
 
 ### How it works
 
-![Factorial Memoization](img/97662447-7a1ea500-1aba-11eb-960a-ccf73d25c9a7.gif)
+![Factorial Memoization](https://user-images.githubusercontent.com/53888115/97662447-7a1ea500-1aba-11eb-960a-ccf73d25c9a7.gif)
