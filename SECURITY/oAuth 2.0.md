@@ -53,7 +53,7 @@ OAuth를 위한 절차는 다음과 같다.
 
 
 
-## Application Registration
+## 1) Application Registration
 
 Resource Server에서 OAuth를 통해 회원정보를 받으려면 먼저 Client를 Resource Server에 등록해야한다. "등록"을 해야 `accessToken`을 요청할 권한이 생기기 때문이다. Client에 대한 기본 정보와 서비스의 결과를 전달 받을 `Redirect URI`를 입력하면 `Client ID`와 `Client Secret`을 받게 된다. 
 
@@ -63,9 +63,23 @@ Resource Server에서 OAuth를 통해 회원정보를 받으려면 먼저 Client
 
 
 
-## Resource Owner의 승인
+## 2) Resource Owner의 승인
 
 Resource Server에는 A, B, C, D라는 네 가지 회원정보가 있다고 하자. Client가 B, C라는 정보만 필요하면, 그것들에 대한 요청을 보내면 된다. 따라서 사용자에게 다른 서비스에서 B와 C라는 정보에 대한 권한을 승인하는 절차가 필요하다. 
 
 <img src="img/authenticate.png" alt="그림1" style="zoom:50%;" />
+
+승인 절차
+
+1. 서비스에 로그인하면서 Client에 B와 C에 대한 접근을 허용해달라는 요청을 Resource Owner에게 보낸다
+2. Resource Owner가 해당 요청을 승인한다
+3. Resource Server에 Client에 등록된 Resource Owner의 정보와 허용 범위를 기록한다
+
+
+
+## 3) Resource Server의 승인
+
+<img src="img/resource_server.png" alt="그림1" style="zoom:50%;" />
+
+Resource Owner가 특정 권한에 대한 승인을 허용하면, Resource Server는 사용자의 브라우저에게 redirect uri로 `authorization code`와 함께 이동하라고 한다.
 
